@@ -9,7 +9,6 @@ function isWatchableExpression(path) {
     // && (!key || !key.startsWith('on'))
     && (t.isTemplateLiteral(exp)
       || (t.isExpression(exp)
-          && !t.isCallExpression(exp)
           && !t.isFunctionExpression(exp)
           && !t.isArrowFunctionExpression(exp)
           && !t.isBooleanLiteral(exp)
@@ -57,8 +56,8 @@ const plugin = function() {
           const propsTdentifier = t.identifier('PropsWatcher');
           const importDefaultSpecifier = t.importDefaultSpecifier(propsTdentifier);
           const doRefreshIdentifier = t.identifier('doRefreshUI');
-          const doRefreshSpecifier = t.importSpecifier(doRefreshIdentifier);
-          const importDeclaration = t.importDeclaration([importDefaultSpecifier, doRefreshSpecifier], t.stringLiteral('@/watcher'));
+          const doRefreshSpecifier = t.importSpecifier(doRefreshIdentifier, doRefreshIdentifier);
+          const importDeclaration = t.importDeclaration([importDefaultSpecifier, doRefreshSpecifier], t.stringLiteral('react-watcher'));
           path.unshiftContainer('body', importDeclaration);
         },
         JSXElement: {
@@ -71,9 +70,14 @@ const plugin = function() {
             node.__watch_processed = true;
             path.traverse(JSXVisitor);
             if (canMemoize(node)) {
-              const replacer = t.jsxElement(t.jsxOpeningElement(t.jsxIdentifier('PropsWatcher'), [
-                t.jsxAttribute(t.jsxIdentifier('render'), t.jsxExpressionContainer(t.arrowFunctionExpression([t.identifier('watch')], node)))
-              ]), null, [], true);
+              const replacer = t.jsxElement(
+                t.jsxOpeningElement(t.jsxIdentifier('PropsWatcher'), [
+                  t.jsxAttribute(t.jsxIdentifier('render'), t.jsxExpressionContainer(t.arrowFunctionExpression([t.identifier('watch')], node)))
+                ], true), // selfClosing set to true
+                null,
+                [],
+                true
+              );
               replacer.__watch_processed = true;
               path.replaceWith(replacer);
             }
