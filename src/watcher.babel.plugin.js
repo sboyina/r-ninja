@@ -3,12 +3,12 @@ const babel = require("@babel/core");
 const jsx = require('@babel/plugin-syntax-jsx').default;
 
 function isWatchableExpression(path) {
-  const exp = path?.node?.expression || path?.container?.value?.expression;
+  const exp = path?.container?.value?.expression;
   const key = path.parent && path.parent.name && path.parent.name.name;
   return exp 
-    // && (!key || !key.startsWith('on'))
-    && (t.isTemplateLiteral(exp)
-      || (t.isExpression(exp)
+    && key 
+    // && (t.isTemplateLiteral(exp)
+    &&  (t.isExpression(exp)
           && !t.isFunctionExpression(exp)
           && !t.isArrowFunctionExpression(exp)
           && !t.isBooleanLiteral(exp)
@@ -16,7 +16,7 @@ function isWatchableExpression(path) {
           && !t.isNullLiteral(exp)
           && !t.isObjectExpression(exp)
           && !t.isNumericLiteral(exp))
-    );
+    //);
 }
 
 function isEventCallback(path) {

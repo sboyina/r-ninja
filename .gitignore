@@ -1,6 +1,9 @@
 # Node modules
 node_modules/
 
+#build directories
+build/
+
 # Logs
 logs/
 *.log

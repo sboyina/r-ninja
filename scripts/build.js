@@ -4,7 +4,9 @@ const fs = require('fs');
 const PROJECT_ROOT = `${__dirname}/..`;
 
 const build = async () => {
-    fs.rmSync(`${PROJECT_ROOT}/build`, { recursive: true });
+    if (fs.existsSync(`${PROJECT_ROOT}/build`)) {
+        fs.rmSync(`${PROJECT_ROOT}/build`, { recursive: true });
+    }
     fs.mkdirSync(`${PROJECT_ROOT}/build`);
     await new Promise((resolve, reject) => {
         spawn('npx', ['tsc'], {
