@@ -5,7 +5,7 @@ const PROJECT_ROOT = `${__dirname}/..`;
 
 const publish = async () => {
     await new Promise((resolve, reject) => {
-        spawn('npx', ['yalc', 'publish'], {
+        spawn('npx', ['yalc', 'publish', '--push'], {
             cwd: `${PROJECT_ROOT}/build`,
             stdio: 'inherit'
         }).on('exit', resolve);

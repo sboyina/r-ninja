@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { Watcher } from "./watcher";
+import { Watcher } from "../watcher";
 
 interface MemoProps {
     render: (watch: Function) => React.ReactNode
