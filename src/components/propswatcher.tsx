@@ -8,9 +8,16 @@ interface MemoProps {
 interface MemoState {
     id: number;
 }
-
+let refreshPlanned = false;
 export const doRefreshUI = () => {
-    Watcher.ROOT.check();
+    if (refreshPlanned) {
+        return;
+    }
+    refreshPlanned = true;
+    requestAnimationFrame(() => {
+        Watcher.ROOT.check();
+        refreshPlanned = false;
+    });
 };
 
 export const WatcherContext = React.createContext<Watcher>(null as any);
