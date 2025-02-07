@@ -1,5 +1,5 @@
 {
-  "name": "react-watcher",
+  "name": "r-ninja",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -13,9 +13,9 @@
   "license": "ISC",
   "description": "",
   "peerDependencies": {
-    "react": ">=17.0.0"
   },
   "devDependencies": {
+    "react": "^19.0.0",
     "@babel/core": "^7.26.7",
     "@babel/plugin-syntax-jsx": "^7.25.9",
     "@babel/types": "^7.26.7",
