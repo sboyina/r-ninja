@@ -1,6 +1,6 @@
 {
   "name": "r-ninja",
-  "version": "0.0.1-beta",
+  "version": "1.0.0",
   "main": "index.js",
   "scripts": {
     "test": "jest",
@@ -9,9 +9,12 @@
     "dev-build": "npm run build && npm run local-publish",
     "watch": "npm-watch dev-build"
   },
-  "author": "",
+  "author": "Boyina Srinivasa Rao",
   "license": "MIT",
   "description": "r-ninja watches for changes in JSX expressions and updates UI with very less glue code. ",
+  "keywords": [
+    "React", "Watchers", "Observer", "Watch", "State"
+  ],
   "homepage": "https://github.com/sboyina/r-ninja",
   "repository": {
     "url": "https://github.com/sboyina/r-ninja"

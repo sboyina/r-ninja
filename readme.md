@@ -56,7 +56,7 @@ RNinja.check();
 
 **NOTE:** 
 - Watcher doesnot watch properties that have function or object literal attached.
-- Due to certain styles of JSX markup, we are not able to watch changes. Till we find a solution to those watch problems. So, instead of those styles, use alternatives provided in r-ninja. 
+- Due to certain styles of JSX markup, we are not able to watch changes properly. Till we find a solution to those watch problems, use alternatives provided by r-ninja. 
     - terinary operator: use When component
     - Map operator: use Repeat component
 
