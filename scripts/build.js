@@ -20,6 +20,9 @@ const build = async () => {
     fs.copyFileSync(
         `${PROJECT_ROOT}/package.json`, 
         `${PROJECT_ROOT}/build/package.json`);
+    fs.copyFileSync(
+        `${PROJECT_ROOT}/package-lock.json`, 
+        `${PROJECT_ROOT}/build/package-lock.json`);
 };
 
 build();
