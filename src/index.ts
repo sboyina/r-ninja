@@ -1,8 +1,11 @@
-import { PropsWatcher } from "./components/propswatcher";
+import { check, PropsWatcher } from "./components/propswatcher";
+
 export { TextContent } from "./components/textcontent";
 export { When } from "./components/when";
 export { Repeat } from "./components/repeat";
-export { PropsWatcher, WatcherContext, useWatcher, doRefreshUI } from "./components/propswatcher"; 
+export { PropsWatcher, WatcherContext, useWatcher, check } from "./components/propswatcher";
 
-
-export default PropsWatcher;
+export default {
+    PropsWatcher,
+    check
+}

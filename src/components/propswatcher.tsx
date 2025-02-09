@@ -9,7 +9,7 @@ interface MemoState {
     id: number;
 }
 let refreshPlanned = false;
-export const doRefreshUI = () => {
+export const check = () => {
     if (refreshPlanned) {
         return;
     }
