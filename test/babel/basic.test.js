@@ -25,7 +25,7 @@ test('Test the setup', () => {
 test('Attribute with string value should not be watched.', () => {
     const {code} = babel.transformSync('(<Text content="test" name={"Sam"}></Text>)', configWithWatchPlugin);
     expect(removeSpaces(code)).toBe(removeSpaces(
-        'import RNinja from "react-ninja";' +
+        'import RNinja from "r-ninja";' +
         '/*#__PURE__*/React.createElement("RNinja.PropsWatcher", {' +
         '    render: watch => /*#__PURE__*/React.createElement(Text, {' +
         '       content: "test",' +
@@ -38,7 +38,7 @@ test('Attribute with string value should not be watched.', () => {
 test('Attribute with number value should not be watched.', () => {
     const {code} = babel.transformSync('(<Text maxLength={4}></Text>)', configWithWatchPlugin);
     expect(removeSpaces(code)).toBe(removeSpaces(
-        'import RNinja from "react-ninja";' +
+        'import RNinja from "r-ninja";' +
         '/*#__PURE__*/React.createElement("RNinja.PropsWatcher", {' +
         '    render: watch => /*#__PURE__*/React.createElement(Text, {' +
         '       maxLength: 4' +
@@ -50,7 +50,7 @@ test('Attribute with number value should not be watched.', () => {
 test('Attribute with boolean value should not be watched.', () => {
     const {code} = babel.transformSync('(<Text disabled={true}></Text>)', configWithWatchPlugin);
     expect(removeSpaces(code)).toBe(removeSpaces(
-        'import RNinja from "react-ninja";' +
+        'import RNinja from "r-ninja";' +
         '/*#__PURE__*/React.createElement("RNinja.PropsWatcher", {' +
         '    render: watch => /*#__PURE__*/React.createElement(Text, {' +
         '       disabled: true' +
@@ -62,7 +62,7 @@ test('Attribute with boolean value should not be watched.', () => {
 test('Attribute with Object value should not be watched.', () => {
     const {code} = babel.transformSync('(<Text style={{color: \'red\'}}></Text>)', configWithWatchPlugin);
     expect(removeSpaces(code)).toBe(removeSpaces(
-        'import RNinja from "react-ninja";' +
+        'import RNinja from "r-ninja";' +
         '/*#__PURE__*/React.createElement("RNinja.PropsWatcher", {' +
         '    render: watch => /*#__PURE__*/React.createElement(Text, {' +
         '       style: {color: \'red\'}' +
@@ -74,7 +74,7 @@ test('Attribute with Object value should not be watched.', () => {
 test('Attribute with null value should not be watched.', () => {
     const {code} = babel.transformSync('(<Text style={null}></Text>)', configWithWatchPlugin);
     expect(removeSpaces(code)).toBe(removeSpaces(
-        'import RNinja from "react-ninja";' +
+        'import RNinja from "r-ninja";' +
         '/*#__PURE__*/React.createElement("RNinja.PropsWatcher", {' +
         '    render: watch => /*#__PURE__*/React.createElement(Text, {' +
         '       style: null' +
@@ -88,7 +88,7 @@ test('Attribute with null value should not be watched.', () => {
 test('Attribute with array value should be watched.', () => {
     const {code} = babel.transformSync('(<List data={[1, 2, 3]}></List>)', configWithWatchPlugin);
     expect(removeSpaces(code)).toBe(removeSpaces(
-        'import RNinja from "react-ninja";' +
+        'import RNinja from "r-ninja";' +
         '/*#__PURE__*/React.createElement("RNinja.PropsWatcher", {' +
         '    render: watch => /*#__PURE__*/React.createElement(List, {' +
         '       data: watch(() => [1, 2, 3])' +
@@ -100,7 +100,7 @@ test('Attribute with array value should be watched.', () => {
 test('Attribute with JSX expression should be watched.', () => {
     const {code} = babel.transformSync('(<Text content={firstname + lastname} name="fullname" ></Text>)', configWithWatchPlugin);
     expect(removeSpaces(code)).toBe(removeSpaces(
-        'import RNinja from "react-ninja";' +
+        'import RNinja from "r-ninja";' +
         '/*#__PURE__*/React.createElement("RNinja.PropsWatcher", {' +
         '    render: watch => /*#__PURE__*/React.createElement(Text, {' +
         '       content: watch(() => firstname + lastname),' +
@@ -119,7 +119,7 @@ test('Watchers should be added across JSX DOM.', () => {
         </div>
         )`, configWithWatchPlugin);
     expect(removeSpaces(code)).toBe(removeSpaces(
-        `import RNinja from "react-ninja";
+        `import RNinja from "r-ninja";
         /*#__PURE__*/React.createElement("RNinja.PropsWatcher", {
         render: watch => /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("RNinja.PropsWatcher", {
             render: watch => /*#__PURE__*/React.createElement(Text, {
@@ -142,7 +142,7 @@ test('Trigger UI Refresh after every callback.', () => {
             onBlur={() => validate()} 
             onInit={() => {init();}}></Text>)`, configWithWatchPlugin);
     expect(removeSpaces(code)).toBe(removeSpaces(`
-        import RNinja from "react-ninja"; /*#__PURE__*/
+        import RNinja from "r-ninja"; /*#__PURE__*/
         
         React.createElement("RNinja.PropsWatcher", {
             render: watch => /*#__PURE__*/ React.createElement(Text, {

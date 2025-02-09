@@ -1,5 +1,5 @@
 {
-  "name": "react-ninja",
+  "name": "r-ninja",
   "version": "0.0.1-beta",
   "main": "index.js",
   "scripts": {
@@ -11,10 +11,10 @@
   },
   "author": "",
   "license": "MIT",
-  "description": "React-Ninja watches for changes in JSX expressions and updates UI with very less glue code. ",
-  "homepage": "https://github.com/sboyina/react-ninja",
+  "description": "r-ninja watches for changes in JSX expressions and updates UI with very less glue code. ",
+  "homepage": "https://github.com/sboyina/r-ninja",
   "repository": {
-    "url": "https://github.com/sboyina/react-ninja"
+    "url": "https://github.com/sboyina/r-ninja"
   },
   "devDependencies": {
     "@babel/core": "^7.26.7",
