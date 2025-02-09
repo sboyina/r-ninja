@@ -1,6 +1,6 @@
 {
   "name": "react-ninja",
-  "version": "1.0.0",
+  "version": "0.0.1-beta",
   "main": "index.js",
   "scripts": {
     "test": "jest",
@@ -10,8 +10,12 @@
     "watch": "npm-watch dev-build"
   },
   "author": "",
-  "license": "ISC",
-  "description": "",
+  "license": "MIT",
+  "description": "React-Ninja watches for changes in JSX expressions and updates UI with very less glue code. ",
+  "homepage": "https://github.com/sboyina/react-ninja",
+  "repository": {
+    "url": "https://github.com/sboyina/react-ninja"
+  },
   "devDependencies": {
     "@babel/core": "^7.26.7",
     "@babel/plugin-syntax-jsx": "^7.25.9",
