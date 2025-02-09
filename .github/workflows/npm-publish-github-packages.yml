@@ -31,6 +31,7 @@ jobs:
         with:
           node-version: 20
           registry-url: https://npm.pkg.github.com/
+      - run: npm run build
       - name: Publish Package
         run: npm publish
         working-directory: build
