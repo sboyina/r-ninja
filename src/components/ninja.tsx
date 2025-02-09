@@ -20,7 +20,7 @@ export const check = () => {
     });
 };
 
-export const WatcherContext = React.createContext<Watcher>(null as any);
+export const NinjaContext = React.createContext<Watcher>(null as any);
 
 export class PropsWatcher extends React.Component<MemoProps, MemoState> {
 
@@ -54,12 +54,12 @@ export class PropsWatcher extends React.Component<MemoProps, MemoState> {
      }
 
     render() {
-        return React.createElement(WatcherContext.Consumer, null as any,
+        return React.createElement(NinjaContext.Consumer, null as any,
             ((parent: Watcher) => {
                 parent = parent || Watcher.ROOT;
                 this.watcher = this.watcher || parent.create();
                 this.watcher.clear();
-                return React.createElement(WatcherContext.Provider, {
+                return React.createElement(NinjaContext.Provider, {
                     "value" : this.watcher 
                 }, [this.props.render(this.watch.bind(this))])
             }) as any);
@@ -67,7 +67,7 @@ export class PropsWatcher extends React.Component<MemoProps, MemoState> {
 }
 
 export function useWatcher() {
-    const parent = useContext(WatcherContext);
+    const parent = useContext(NinjaContext);
     const [change, onChange] = useState({});
     let [ watcher ] = useState(() => parent.create());
     watcher.clear();

@@ -15,8 +15,8 @@ const build = async () => {
         }).on('exit', resolve);
     });
     fs.copyFileSync(
-        `${PROJECT_ROOT}/src/watcher.babel.plugin.js`, 
-        `${PROJECT_ROOT}/build/watcher.babel.plugin.js`);
+        `${PROJECT_ROOT}/src/ninja.babel.plugin.js`, 
+        `${PROJECT_ROOT}/build/ninja.babel.plugin.js`);
     fs.copyFileSync(
         `${PROJECT_ROOT}/package.json`, 
         `${PROJECT_ROOT}/build/package.json`);

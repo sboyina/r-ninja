@@ -10,7 +10,7 @@ const config = {
 
 const configWithWatchPlugin = {
     ...config,
-    plugins: ['./src/watcher.babel.plugin.js']
+    plugins: ['./src/ninja.babel.plugin.js']
 };
 
 
