@@ -64,7 +64,7 @@ const plugin = function() {
         Program(path) {
           const propsTdentifier = t.identifier('RNinja');
           const importDefaultSpecifier = t.importDefaultSpecifier(propsTdentifier);
-          const importDeclaration = t.importDeclaration([importDefaultSpecifier], t.stringLiteral('r-ninja'));
+          const importDeclaration = t.importDeclaration([importDefaultSpecifier], t.stringLiteral('react-ninja'));
           path.unshiftContainer('body', importDeclaration);
         },
         JSXElement: {
