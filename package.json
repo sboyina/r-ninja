@@ -1,10 +1,11 @@
 {
   "name": "r-ninja",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "index.js",
   "scripts": {
     "test": "jest",
     "build": "node ./scripts/build.js",
+    "npm-publish": "npm run build && node ./scripts/publish.js",
     "local-publish": "node ./scripts/local-publish.js",
     "dev-build": "npm run build && npm run local-publish",
     "watch": "npm-watch dev-build"
