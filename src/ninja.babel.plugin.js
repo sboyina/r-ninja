@@ -8,6 +8,7 @@ function isWatchableExpression(path, source, exp, key) {
     // && (t.isTemplateLiteral(exp)
     && !key.startsWith('on') 
     &&  (t.isExpression(exp)
+          && !t.isJSXElement(exp)
           && !t.isFunctionExpression(exp)
           && !t.isArrowFunctionExpression(exp)
           && !t.isBooleanLiteral(exp)

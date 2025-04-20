@@ -1,9 +1,9 @@
-class WatchExpression {
-    private last: any = null;
-    private expBody: string = null as any;
+export class WatchExpression {
+    public last: any = null;
+    public expBody: string = null as any;
     public lastExecutionTime = 0;
 
-    constructor(private fn: Function, private onChange: (prev: any, now: any) => any) {
+    constructor(public fn: Function, private onChange: (prev: any, now: any) => any) {
         this.last = this.execute();
         if (Array.isArray(this.last)) {
             this.last = [...this.last];

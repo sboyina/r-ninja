@@ -9,6 +9,7 @@ interface MemoState {
     id: number;
 }
 let refreshPlanned = false;
+
 export const check = () => {
     if (refreshPlanned) {
         return;
