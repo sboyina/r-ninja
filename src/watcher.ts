@@ -74,6 +74,7 @@ export class Watcher {
     public isActive = true;
     public parent: Watcher = null as any;
     public children = [] as Watcher[];
+    public isDestroyed = false;
     private constructor() {}
 
     check() {
@@ -104,10 +105,13 @@ export class Watcher {
     destroy() {
         this.clear();
         this.parent && this.parent.remove(this);
+        this.isDestroyed = true;
     }
 
     clear() {
-        this.children = [];
+        this.children.forEach((c) => {
+            c.destroy();
+        });
         this.expressions = [];
     }
 

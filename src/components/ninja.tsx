@@ -35,9 +35,10 @@ export class PropsWatcher extends React.Component<MemoProps, MemoState> {
     }
 
     shouldComponentUpdate(nextProps: any, nextState: any) {
-        return Object.keys(nextProps).reduce((p, k) => {
+        return (this.state.id !== nextState.id || this.watcher.isDestroyed) 
+        || Object.keys(nextProps).reduce((p, k) => {
             return p || (k !== 'render' && (this.props as any)[k] !== nextProps[k]);
-        }, false) || this.state.id !== nextState.id;
+        }, false);
     }
 
     componentWillUnmount() {
@@ -60,9 +61,7 @@ export class PropsWatcher extends React.Component<MemoProps, MemoState> {
                 parent = parent || Watcher.ROOT;
                 this.watcher = this.watcher || parent.create();
                 this.watcher.clear();
-                return React.createElement(NinjaContext.Provider, {
-                    "value" : this.watcher 
-                }, [this.props.render(this.watch.bind(this))])
+                return this.props.render(this.watch.bind(this));
             }) as any);
     }
 }
