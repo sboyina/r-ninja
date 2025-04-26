@@ -1,5 +1,5 @@
-import { Watcher, WatchExpression } from "../watcher";
-import { ViewModel } from "../viewmodel";
+import { Watcher, WatchExpression } from "./watcher";
+import { ViewModel } from "./viewmodel";
 
 export const internals = {
     ROOT: Watcher.ROOT,

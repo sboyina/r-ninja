@@ -1,6 +1,7 @@
 const t = require("@babel/types");
 const babel = require("@babel/core");
 const jsx = require('@babel/plugin-syntax-jsx').default;
+const generate = require('@babel/generator').default;
 
 function isWatchableExpression(path, source, exp, key) {
   return exp 
@@ -41,15 +42,29 @@ const methodVistor = {
 };
 
 const JSXVisitor = {
-  JSXExpressionContainer(path, state) {
-    const source = path.getSource();
-    const exp = path?.container?.value?.expression;
-    const key = path.parent && path.parent.name && path.parent.name.name;
-    if (source && isWatchableExpression(path, source, exp, key)) {
-        const tExp = `watch(() => (${source.substring(1, source.length -1)}))`;
+  JSXExpressionContainer: {
+    enter(path, state) {
+      const source = path.getSource();
+      const exp = path?.container?.value?.expression;
+      const key = path.parent && path.parent.name && path.parent.name.name;
+      if (source && isWatchableExpression(path, source, exp, key)) {
+          const tExp = `watch(() => (${source.substring(1, source.length -1)}))`;
+          path.replaceWith(t.jsxExpressionContainer(babel.template.expression.ast(tExp)));
+      } else if (source && isEventCallback(path, source, exp, key)) {
+        path.traverse(methodVistor);
+      }
+    },
+    exit(path, state) {
+      const transformedExpression = path.node.expression;
+      const key = path.parent && path.parent.name && path.parent.name.name;
+      if (!key && transformedExpression
+          && !path.__has_expression_child  
+          && (!path.parent || !path.parent.__has_expression_child)) {
+        path.__has_expression_child = true;
+        const tSource = generate(transformedExpression).code;
+        const tExp = `watch(() => (${tSource}))`;
         path.replaceWith(t.jsxExpressionContainer(babel.template.expression.ast(tExp)));
-    } else if (source && isEventCallback(path, source, exp, key)) {
-      path.traverse(methodVistor);
+      }
     }
   }
 };
@@ -58,6 +73,15 @@ const canMemoize = (node) => {
   // return !(attr && (attr.value == null || attr.value.value === 'false')); 
   return true;
 };
+const getKey = (node) => {
+  const attr = node.openingElement.attributes.find(a => a.name.name === 'key');
+  if (attr && t.isStringLiteral(attr.value)) {
+    return attr.value.value;
+  } else if (attr && t.isJSXExpressionContainer(attr.value) && t.isIdentifier(attr.value.expression)) {
+    return attr.value.expression.name;
+  }
+  return null;
+}
 const plugin = function() {
     return {
       inherits: jsx,
@@ -75,18 +99,23 @@ const plugin = function() {
             if (node.__watch_processed || !nodeName || nodeName.startsWith('RNinja')) {
               return;
             }
-            node.__watch_processed = true;
             path.traverse(JSXVisitor);
+            const key = getKey(node);
+            node.__watch_processed = !path.__has_expression_child;
             if (canMemoize(node)) {
+              const props = [];
+              if (key) {
+                props.push(t.jsxAttribute(t.jsxIdentifier('key'), babel.template.expression.ast(tExp)))
+              }
+              props.push(t.jsxAttribute(t.jsxIdentifier('render'), t.jsxExpressionContainer(t.arrowFunctionExpression([t.identifier('watch')], node))));
               const replacer = t.jsxElement(
-                t.jsxOpeningElement(t.jsxIdentifier('RNinja.PropsWatcher'), [
-                  t.jsxAttribute(t.jsxIdentifier('render'), t.jsxExpressionContainer(t.arrowFunctionExpression([t.identifier('watch')], node)))
-                ], true), // selfClosing set to true
+                t.jsxOpeningElement(
+                  t.jsxMemberExpression(t.jSXIdentifier('RNinja'), t.jsxIdentifier('PropsWatcher')), props, true), // selfClosing set to true
                 null,
                 [],
                 true
               );
-              replacer.__watch_processed = true;
+              replacer.__watch_processed = !path.__has_expression_child;;
               path.replaceWith(replacer);
             }
           }

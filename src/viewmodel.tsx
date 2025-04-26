@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { internals } from "./components/internals";
+import { internals } from "./internals";
 
 export abstract class ViewModel {
     private cleanUp: Function[] = [];
