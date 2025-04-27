@@ -186,6 +186,34 @@ test('Text with expression should be watched.', () => {
     );
 });
 
+test('Text with JSX element as property.', () => {
+    const {code} = babel.transformSync('(<div startContent={<Text content="test">{name}</Text>}></div>)', configWithWatchPlugin);
+    expect(removeSpaces(code)).toBe(removeSpaces(
+        'import RNinja from "r-ninja";' +
+        '/*#__PURE__*/'+
+        'React.createElement(RNinja.PropsWatcher,{' +
+        '   render: watch=>/*#__PURE__*/React.createElement("div",{startContent:' +
+        '       /*#__PURE__*/React.createElement(RNinja.PropsWatcher, {' +
+        '           render: watch => /*#__PURE__*/React.createElement(Text, {' +
+        '           content: "test"' +
+        '       },'+
+        '       watch(() => name)' +
+        '       )}' + 
+        ')})});')
+    );
+});
+
+test('Comment text inside JSX should be skipped.', () => {
+    const {code} = babel.transformSync('(<div>{/*<Text content="test">{name}</Text>*/}</div>)', configWithWatchPlugin);
+    expect(removeSpaces(code)).toBe(removeSpaces(
+        'import RNinja from "r-ninja";' +
+        '/*#__PURE__*/'+
+        'React.createElement(RNinja.PropsWatcher,{' +
+        '   render: watch=>/*#__PURE__*/React.createElement("div", null' + 
+        ')});')
+    );
+});
+
 test('JSX child with ternary operator should be watched.', () => {
     const {code} = babel.transformSync('(<div>{name ? (<Text>{name}</Text>) : (<Text>{noname}</Text>)}</div>)', configWithWatchPlugin);
     expect(removeSpaces(code)).toBe(removeSpaces(
@@ -193,14 +221,23 @@ test('JSX child with ternary operator should be watched.', () => {
         '/*#__PURE__*/'+
         'React.createElement(RNinja.PropsWatcher,{' +
         '   render: watch=>/*#__PURE__*/' + 
-        '       React.createElement("div",null,watch(()=>' +
-        '           name ? ' + 
-        '           React.createElement(RNinja.PropsWatcher,{' + 
-        '               render:watch=>React.createElement(Text,null,watch(()=>name))' + 
-        '           }):' +
-        '           React.createElement(RNinja.PropsWatcher,{' + 
-        '               render:watch=>React.createElement(Text,null,watch(()=>noname))'+
-        '           })' +
+        '       React.createElement("div",null,' +
+        '           /*#__PURE__*/' + 
+        '           React.createElement(' +
+        '               RNinja.PropsWatcher,{' +
+        '                   render:watch=>/*#__PURE__*/React.createElement(' +
+        '                       RNinja.When, {' +
+        '                           condition: watch(() => name),' +
+        '                           onTrue:()=>/*#__PURE__*/' +
+        '                               React.createElement(RNinja.PropsWatcher,{' + 
+        '                                   render:watch=>/*#__PURE__*/React.createElement(Text,null,watch(()=>name))' + 
+        '                           }),' +
+        '                           onFalse:()=>/*#__PURE__*/' +
+        '                               React.createElement(RNinja.PropsWatcher,{' + 
+        '                                   render:watch=>/*#__PURE__*/React.createElement(Text,null,watch(()=>noname))'+
+        '                           })' +
+        '                       })' +
+        '                }' + 
         '       ))' +
         ' });'
     ));
