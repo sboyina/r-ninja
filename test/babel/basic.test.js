@@ -243,6 +243,23 @@ test('JSX child with ternary operator should be watched.', () => {
     ));
 });
 
+test('JSX child with function should be skipped.', () => {
+    const {code} = babel.transformSync('(<div>{(d, i) => (<Text key={i}>{d.name}</Text>)}</div>)', configWithWatchPlugin);
+    expect(removeSpaces(code)).toBe(removeSpaces(
+        'import RNinja from "r-ninja";' +
+        '/*#__PURE__*/'+
+        'React.createElement(RNinja.PropsWatcher,{' +
+        '   render: watch=>/*#__PURE__*/' + 
+        '       React.createElement("div",null,(d, i)=>' +
+        '           /*#__PURE__*/' +
+        '           React.createElement(RNinja.PropsWatcher,{' + 
+        '               render:watch=>/*#__PURE__*/React.createElement(Text,{key:watch(()=>i)},watch(()=>d.name))' + 
+        '           })' +
+        '       )' +
+        ' });'
+    ));
+});
+
 test('JSX child with map operator should be watched.', () => {
     const {code} = babel.transformSync('(<div>{data.map((d, i) => (<Text key={i}>{d.name}</Text>))}</div>)', configWithWatchPlugin);
     expect(removeSpaces(code)).toBe(removeSpaces(

@@ -59,7 +59,9 @@ const JSXVisitor = {
       const expression = path.node.expression;
       const source = path.getSource();
       const key = path.parent && path.parent.name && path.parent.name.name;
-      if (key || !expression || t.isJSXElement(expression)
+      if (key || !expression || t.isJSXElement(expression) 
+          || t.isArrowFunctionExpression(expression) 
+          || t.isFunctionExpression(expression)
           || /^\{(\s|\n|\r)*\/\*/.test(source)
           || path.__has_expression_child  
           || (path.parent && path.parent.__has_expression_child)) {
