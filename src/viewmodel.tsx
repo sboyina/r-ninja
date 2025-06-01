@@ -31,12 +31,13 @@ export function useViewModel<T extends ViewModel>(fn: () => T) {
     useEffect(() => {
         internals.models.push(model);
         model.onInit();
+        const oldModel = model;
         return () => {
-            const i = internals.models.indexOf(model);
+            const i = internals.models.indexOf(oldModel);
             if (i >= 0) {
                 internals.models.splice(i, 1);
             }
-            model.onDestroy();
+            oldModel.onDestroy();
         };
     }, [model]);
     return model;
