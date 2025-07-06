@@ -5,7 +5,7 @@ export const createViewmodelContext = <T extends ViewModel<any>>() => createCont
 
 export const ViewmodelContext = createViewmodelContext();
 
-export const ViewmodelProvider = (value: ViewModel<any>, children: React.ReactNode) => {
+export const ViewmodelProvider = ({ value, children }: React.PropsWithChildren<{ value: ViewModel<any> }>) => {
     const [viewmodel] = useState(value);
     useEffect(() => {
         viewmodel.onInit();

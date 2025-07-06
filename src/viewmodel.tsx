@@ -1,5 +1,5 @@
 import { createElement } from "react";
-import { ViewmodelContext } from "./hooks";
+import { ViewmodelContext, ViewmodelProvider } from "./hooks";
 import { check } from "./ninja";
 
 export abstract class ViewModel<P> {
@@ -34,11 +34,11 @@ export abstract class ViewModel<P> {
 
     render() {
         this.cachedComponent = this.cachedComponent || createElement(
-            ViewmodelContext.Provider, {
+            ViewmodelProvider,
+            {
                 value: this
-            }, [
-                createElement(this.Component)
-            ]
+            },
+            createElement(this.Component)
         );
         return this.cachedComponent;
     }
