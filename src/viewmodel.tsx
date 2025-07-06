@@ -1,10 +1,17 @@
-import { useEffect, useState } from "react";
-import { internals } from "./internals";
+import { createElement } from "react";
+import { ViewmodelContext } from "./hooks";
+import { check } from "./ninja";
 
-export abstract class ViewModel {
+export abstract class ViewModel<P> {
     private cleanUp: Function[] = [];
+    private cachedComponent: React.ReactNode;
+    public props: P = {} as P;
+    
+    constructor(public Component: React.ComponentType<any>) {
+    }
 
-    constructor() {
+    check() {
+        check();
     }
     
     onInit() {
@@ -24,21 +31,15 @@ export abstract class ViewModel {
             }
         });
     }
-}
 
-export function useViewModel<T extends ViewModel>(fn: () => T) {
-    const [model] = useState(fn);
-    useEffect(() => {
-        internals.models.push(model);
-        model.onInit();
-        const oldModel = model;
-        return () => {
-            const i = internals.models.indexOf(oldModel);
-            if (i >= 0) {
-                internals.models.splice(i, 1);
-            }
-            oldModel.onDestroy();
-        };
-    }, [model]);
-    return model;
-};
+    render() {
+        this.cachedComponent = this.cachedComponent || createElement(
+            ViewmodelContext.Provider, {
+                value: this
+            }, [
+                createElement(this.Component)
+            ]
+        );
+        return this.cachedComponent;
+    }
+}

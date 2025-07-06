@@ -4,7 +4,8 @@ import { When } from "./components/when";
 
 export { PropsWatcher, NinjaContext, useWatcher, check } from "./ninja";
 export { Watcher } from "./watcher";
-export { useViewModel, ViewModel } from "./viewmodel";
+export { ViewModel } from "./viewmodel";
+export { useViewModel, ViewmodelProvider } from "./hooks";
 
 export default {
     PropsWatcher,

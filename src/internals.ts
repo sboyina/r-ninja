@@ -3,7 +3,7 @@ import { ViewModel } from "./viewmodel";
 
 export const internals = {
     ROOT: Watcher.ROOT,
-    models: [] as ViewModel[],
+    models: [] as ViewModel<any>[],
     expressions: (watcher = Watcher.ROOT): WatchExpression[] => {
         if (!watcher.isActive) {
             return [];
